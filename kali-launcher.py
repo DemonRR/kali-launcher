@@ -244,7 +244,7 @@ class MainWindow(QMainWindow):
     def load_data(self):
         if not os.path.exists(self.config_path):
             return {
-                "categories": [self.default_category],
+                "categories": [],
                 "items": []
             }
 
@@ -254,7 +254,7 @@ class MainWindow(QMainWindow):
         except Exception as e:
             print("配置解析失败:", e)
             return {
-                "categories": [self.default_category],
+                "categories": [],
                 "items": []
             }
 
@@ -321,8 +321,9 @@ class MainWindow(QMainWindow):
             menu.addSeparator()
             menu.addAction("删除", lambda: self.delete_launcher_item(item))
             menu.setStyleSheet(self.get_menu_style())
-            global_pos = item.button.mapToGlobal(position)
-            menu.exec(global_pos)  # 调整菜单弹出位置
+            # 使用 item.mapToGlobal(position) 获取相对于 LauncherItem 的全局位置
+            global_pos = item.mapToGlobal(position)
+            menu.exec(global_pos)
         except Exception as e:
             print(f"显示项目右键菜单时出错: {e}")
 
@@ -408,7 +409,7 @@ class MainWindow(QMainWindow):
             menu.addAction(QIcon.fromTheme("application-exit"), "退出", self.close)
             menu.setStyleSheet(self.get_menu_style())
             global_pos = self.mapToGlobal(pos)
-            menu.exec(global_pos)  # 调整菜单弹出位置
+            menu.exec(global_pos)
         except Exception as e:
             print(f"显示全局右键菜单时出错: {e}")
 
@@ -487,6 +488,10 @@ class MainWindow(QMainWindow):
             print(f"重命名分类时出错: {e}")
 
     def add_launcher_item(self, category):
+        if not self.data.get("categories"):
+            QMessageBox.warning(self, "提示", "当前没有可用的分类，请先创建分类。")
+            return
+
         try:
             dialog = ItemEditDialog(self, {
                 "name": "",
