@@ -199,12 +199,19 @@ class MainWindow(QMainWindow):
 
         # 左侧面板布局
         category_box = QVBoxLayout()
+
+        # 添加菜单栏提示标签
+        menu_label = QLabel("菜单栏")
+        menu_label.setStyleSheet("font-size: 18px; font-weight: bold; color: #ffffff; margin-bottom: 10px; margin-left: 10px;")
+        category_box.addWidget(menu_label)
+
         self.category_list = QListWidget()
         self.category_list.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.category_list.customContextMenuRequested.connect(self.show_category_context)
         self.category_list.itemClicked.connect(self.show_category)
         self.refresh_categories()
         self.category_list.setMinimumWidth(200)  # 设置左侧菜单栏最小宽度
+        self.category_list.setStyleSheet("background-color: #2a2a3c; border-radius: 12px; padding: 10px;")
 
         # 右键菜单绑定
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
@@ -214,7 +221,21 @@ class MainWindow(QMainWindow):
         category_box.addWidget(self.category_list)
         main_layout.addLayout(category_box, stretch=1)
 
+        # 添加分隔线
+        separator = QFrame()
+        separator.setFrameShape(QFrame.Shape.VLine)
+        separator.setFrameShadow(QFrame.Shadow.Sunken)
+        separator.setStyleSheet("color: #444; margin: 0 10px;")
+        main_layout.addWidget(separator)
+
         # 内容区初始化
+        launcher_box = QVBoxLayout()
+
+        # 添加启动器提示标签
+        launcher_label = QLabel("启动器")
+        launcher_label.setStyleSheet("font-size: 18px; font-weight: bold; color: #ffffff; margin-bottom: 10px; margin-left: 10px;")
+        launcher_box.addWidget(launcher_label)
+
         self.content_widget = QWidget()
         self.content_layout = QGridLayout(self.content_widget)
         self.content_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -224,9 +245,20 @@ class MainWindow(QMainWindow):
         self.scroll_area.setFrameShape(QFrame.Shape.NoFrame)
         self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scroll_area.setWidget(self.content_widget)
-        self.scroll_area.setStyleSheet(self.get_content_style())
+        self.scroll_area.setStyleSheet("""
+            QScrollArea {
+                border: none;
+                background: #2a2a3c;
+                border-radius: 12px;
+                margin: 0 10px 10px 10px;
+            }
+            QScrollArea > QWidget {
+                border: 1px dashed #444;
+            }
+        """)
 
-        main_layout.addWidget(self.scroll_area, stretch=999)
+        launcher_box.addWidget(self.scroll_area)
+        main_layout.addLayout(launcher_box, stretch=999)
 
     def get_content_style(self):
         return """
@@ -321,7 +353,6 @@ class MainWindow(QMainWindow):
             menu.addSeparator()
             menu.addAction("删除", lambda: self.delete_launcher_item(item))
             menu.setStyleSheet(self.get_menu_style())
-            # 使用 item.mapToGlobal(position) 获取相对于 LauncherItem 的全局位置
             global_pos = item.mapToGlobal(position)
             menu.exec(global_pos)
         except Exception as e:
