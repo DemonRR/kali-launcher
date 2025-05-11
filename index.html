@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>启动器管理</title>
+  <title>Kali启动器</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet">
   <link href="assets/css/styles.css" rel="stylesheet">
   
   <!-- Tailwind 配置 -->
@@ -38,18 +38,18 @@
   <header class="bg-white shadow-sm sticky top-0 z-10 light">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-2">
-        <i class="fa fa-rocket text-primary text-2xl"></i>
+        <i class="fas fa-rocket text-primary text-2xl"></i> <!-- 替换为 v5 类名 -->
         <h1 class="text-xl font-bold text-primary">启动器管理</h1>
       </div>
       <div class="flex items-center space-x-4">
         <button id="export-btn" class="flex items-center text-dark-2 hover:text-primary transition-custom">
-          <i class="fa fa-upload mr-1"></i> 导出
+          <i class="fas fa-upload mr-1"></i> 导出
         </button>
         <button id="import-btn" class="flex items-center text-dark-2 hover:text-primary transition-custom">
-          <i class="fa fa-download mr-1"></i> 导入
+          <i class="fas fa-download mr-1"></i> 导入
         </button>
         <button id="settings-btn" class="flex items-center text-dark-2 hover:text-primary transition-custom">
-          <i class="fa fa-moon mr-1"></i> 切换主题
+          <i class="fas fa-moon mr-1"></i> 切换主题
         </button>
       </div>
     </div>
@@ -62,7 +62,7 @@
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold">分类管理</h2>
         <button id="add-category-btn" class="text-primary hover:text-primary/80 transition-custom">
-          <i class="fa fa-plus"></i>
+          <i class="fas fa-plus"></i>
         </button>
       </div>
       
@@ -84,10 +84,10 @@
               placeholder="搜索项目..." 
               class="pl-9 pr-4 py-2 rounded-lg border border-light-2 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom"
             >
-            <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-light-3"></i>
+            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-light-3"></i> <!-- 替换为 v5 类名 -->
           </div>
           <button id="add-item-btn" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg flex items-center transition-custom shadow-sm">
-            <i class="fa fa-plus mr-2"></i> 新建项目
+            <i class="fas fa-plus mr-2"></i> 新建项目
           </button>
         </div>
       </div>
@@ -95,12 +95,12 @@
       <!-- 空状态 -->
       <div id="empty-state" class="hidden flex flex-col items-center justify-center py-16">
         <div class="w-20 h-20 bg-light-1 rounded-full flex items-center justify-center mb-4">
-          <i class="fa fa-rocket text-3xl text-primary/50"></i>
+          <i class="fas fa-rocket text-3xl text-primary/50"></i>
         </div>
         <h3 class="text-lg font-medium text-dark-2 mb-2">暂无项目</h3>
         <p class="text-light-3 mb-4">添加您的第一个启动器项目，快速访问常用应用和命令</p>
         <button id="empty-add-item-btn" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg flex items-center transition-custom shadow-sm">
-          <i class="fa fa-plus mr-2"></i> 添加项目
+          <i class="fas fa-plus mr-2"></i> 添加项目
         </button>
       </div>
       
@@ -150,7 +150,7 @@
               <i id="category-icon-preview" class="fa fa-folder"></i>
             </div>
           </div>
-          <p class="text-xs text-light-3 mt-1">查看所有图标: <a href="https://fontawesome.com/v4/icons/" target="_blank" class="text-primary hover:underline">Font Awesome 图标库</a></p>
+          <p class="text-xs text-light-3 mt-1">查看所有图标: <a href="https://fontawesome.com.cn/v5/" target="_blank" class="text-primary hover:underline">Font Awesome 图标库</a></p>
         </div>
         
         <div class="flex justify-end space-x-3">
@@ -221,7 +221,7 @@
               <i id="item-icon-preview" class="fa fa-terminal"></i>
             </div>
           </div>
-          <p class="text-xs text-light-3 mt-1">查看所有图标: <a href="https://fontawesome.com/v4/icons/" target="_blank" class="text-primary hover:underline">Font Awesome 图标库</a></p>
+          <p class="text-xs text-light-3 mt-1">查看所有图标: <a href="https://fontawesome.com.cn/v5/" target="_blank" class="text-primary hover:underline">Font Awesome 图标库</a></p>
         </div>
         
         <div class="flex justify-end space-x-3">
@@ -258,4 +258,4 @@
   <script src="js/app.js"></script>
   <script src="js/theme.js"></script>
 </body>
-</html>  
+</html>

@@ -231,3 +231,159 @@ body.dark .item-count {
   background-color: #27374D; /* 暗主题下的背景色 */
   color: #DDE6ED; /* 暗主题下的文字颜色 */
 }
+
+.item-count {
+  background-color: #F2F3F5; /* 亮主题下的背景色 */
+  color: #4E5969; /* 亮主题下的文字颜色 */
+}
+
+body.dark .item-count {
+  background-color: #27374D; /* 暗主题下的背景色 */
+  color: #DDE6ED; /* 暗主题下的文字颜色 */
+}
+
+
+
+/* 亮主题样式调整 */
+body {
+  background-color: #f4f4f4; /* 将背景色调整为稍微柔和的灰色 */
+}
+
+header {
+  background-color: #e9e9e9; /* 调整头部背景色 */
+  border-bottom: 1px solid #dcdcdc; /* 增加底部边框以增强层次感 */
+}
+
+aside {
+  background-color: #e9e9e9; /* 调整侧边栏背景色 */
+  border-right: 1px solid #dcdcdc; /* 增加右边框以增强层次感 */
+}
+
+.bg-white {
+  background-color: #ffffff; /* 保持白色背景，但可以考虑添加边框 */
+  border: 1px solid #dcdcdc; /* 增加边框以增强层次感 */
+}
+
+input,
+select,
+textarea {
+  background-color: #ffffff; /* 保持输入框白色背景 */
+  color: #333333; /* 调整文本颜色 */
+  border: 1px solid #dcdcdc; /* 增加边框以增强层次感 */
+  /* 移除自定义下拉箭头，使用浏览器默认样式 */
+  background-image: none;
+  padding-right: 0.75rem;
+}
+
+input::placeholder,
+select::placeholder,
+textarea::placeholder {
+  color: #999999; /* 调整占位符文本颜色 */
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #999999; /* 调整聚焦时的边框颜色 */
+  box-shadow: 0 0 0 2px rgba(153, 153, 153, 0.2); /* 增加聚焦时的阴影效果 */
+}
+
+.btn-primary {
+  background-color: #007bff; /* 保持主要按钮颜色 */
+  color: #ffffff; /* 保持主要按钮文本颜色 */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* 调整主要按钮悬停时的颜色 */
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* 保持次要按钮颜色 */
+  color: #ffffff; /* 保持次要按钮文本颜色 */
+}
+
+.btn-secondary:hover {
+  background-color: #545b62; /* 调整次要按钮悬停时的颜色 */
+}
+
+.modal-content {
+  /* 可以根据需要调整模态框内容的样式 */
+}
+
+/* 暗主题样式保持不变 */
+body.dark {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+body.dark header {
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+body.dark aside {
+  background-color: #1e293b;
+  border-right: 1px solid #334155;
+}
+
+body.dark .bg-white {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background-color: #27374D;
+  color: #DDE6ED;
+  border: 1px solid #526D82;
+  /* 移除自定义下拉箭头，使用浏览器默认样式 */
+  background-image: none;
+  padding-right: 0.75rem;
+}
+
+body.dark input::placeholder,
+body.dark select::placeholder,
+body.dark textarea::placeholder {
+  color: #9DB2BF;
+}
+
+body.dark input:focus,
+body.dark select:focus,
+body.dark textarea:focus {
+  border-color: #9DB2BF;
+  box-shadow: 0 0 0 2px rgba(157, 178, 191, 0.2);
+}
+
+/* 移除自定义下拉箭头 */
+select {
+  background-image: none;
+  padding-right: 0.75rem;
+}
+
+body.dark select {
+  background-image: none;
+  padding-right: 0.75rem;
+}
+
+body.dark .btn-primary {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+body.dark .btn-primary:hover {
+  background-color: #2563eb;
+}
+
+body.dark .btn-secondary {
+  background-color: #64748b;
+  color: #ffffff;
+}
+
+body.dark .btn-secondary:hover {
+  background-color: #475569;
+}
+
+body.dark .modal-content {
+  /* 可以根据需要调整暗主题下模态框内容的样式 */
+}

@@ -82,7 +82,8 @@ function renderItems(searchTerm = '') {
     // 项目图标
     const itemIcon = document.createElement('div');
     itemIcon.className = 'w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shadow-sm';
-    itemIcon.innerHTML = `<i class="fa ${item.icon || 'fa-terminal'}"></i>`;
+    // 修改为 v5 类名
+    itemIcon.innerHTML = `<i class="fas ${item.icon || 'fa-terminal'}"></i>`;
     
     // 项目名称
     const itemName = document.createElement('h3');
@@ -245,7 +246,7 @@ function setupItemEvents() {
   const refreshButton = document.createElement('button');
   refreshButton.id = 'refresh-btn';
   refreshButton.className = 'p-2 rounded-lg hover:bg-light-1 transition-custom';
-  refreshButton.innerHTML = '<i class="fa fa-refresh"></i>';
+  refreshButton.innerHTML = '<i class="fas fa-sync-alt"></i>'; // 替换为 v5 图标
   refreshButton.title = '刷新';
   
   // 将刷新按钮插入到新建项目按钮右边
@@ -371,7 +372,8 @@ function setupItemEvents() {
   // 图标实时预览
   document.getElementById('item-icon').addEventListener('input', (e) => {
     const iconPreview = document.getElementById('item-icon-preview');
-    iconPreview.className = `fa ${e.target.value || 'fa-terminal'}`;
+    // 修改为 v5 类名
+    iconPreview.className = `fas ${e.target.value || 'fa-terminal'}`;
   });
   
   // 确保模态框关闭时重置状态
@@ -479,7 +481,7 @@ function initContextMenu() {
   // 运行菜单项
   const runMenuItem = document.createElement('div'); // 避免函数名冲突，修改变量名
   runMenuItem.className = 'px-3 py-1.5 cursor-pointer flex items-center context-menu-item';
-  runMenuItem.innerHTML = '<i class="fa fa-play mr-2 text-primary"></i> 运行';
+  runMenuItem.innerHTML = '<i class="fas fa-play mr-2 text-primary"></i> 运行'; // 修改为 v5 类名
   runMenuItem.addEventListener('click', () => {
     const itemId = contextMenu.dataset.itemId;
     const item = AppConfig.items.find(i => i.id === itemId);
@@ -493,7 +495,7 @@ function initContextMenu() {
   // 编辑菜单项
   const editItem = document.createElement('div');
   editItem.className = 'px-3 py-1.5 cursor-pointer flex items-center context-menu-item';
-  editItem.innerHTML = '<i class="fa fa-pencil mr-2 text-primary"></i> 编辑';
+  editItem.innerHTML = '<i class="fas fa-pencil-alt mr-2 text-primary"></i> 编辑'; // 修改为 v5 图标
   editItem.addEventListener('click', () => {
     const itemId = contextMenu.dataset.itemId;
     openItemModal(itemId);
@@ -504,7 +506,7 @@ function initContextMenu() {
   // 删除菜单项
   const deleteItem = document.createElement('div');
   deleteItem.className = 'px-3 py-1.5 cursor-pointer flex items-center text-danger context-menu-item';
-  deleteItem.innerHTML = '<i class="fa fa-trash mr-2"></i> 删除';
+  deleteItem.innerHTML = '<i class="fas fa-trash-alt mr-2"></i> 删除'; // 修改为 v5 图标
   deleteItem.addEventListener('click', () => {
     const itemId = contextMenu.dataset.itemId;
     const item = AppConfig.items.find(i => i.id === itemId);

@@ -28,9 +28,9 @@ function renderCategories() {
   const allCategoryName = document.createElement('span');
   allCategoryName.textContent = '全部项目';
 
-  // 添加全部项目的数量统计
+  // 添加全部项目的数量统计，添加 item-count 类名
   const allItemCount = document.createElement('span');
-  allItemCount.className = 'bg-light-1 text-xs text-dark-2 rounded-full w-6 h-6 flex items-center justify-center shadow-sm';
+  allItemCount.className = 'item-count bg-light-1 text-xs text-dark-2 rounded-full w-6 h-6 flex items-center justify-center shadow-sm';
   allItemCount.textContent = AppConfig.items.length;
   
   allCategoryContent.appendChild(allCategoryIcon);
@@ -62,9 +62,9 @@ function renderCategories() {
     const categoryName = document.createElement('span');
     categoryName.textContent = category.name;
 
-    // 添加项目数量统计
+    // 添加项目数量统计，添加 item-count 类名
     const itemCount = document.createElement('span');
-    itemCount.className = 'bg-light-1 text-xs text-dark-2 rounded-full w-6 h-6 flex items-center justify-center shadow-sm';
+    itemCount.className = 'item-count bg-light-1 text-xs text-dark-2 rounded-full w-6 h-6 flex items-center justify-center shadow-sm';
     itemCount.textContent = AppConfig.items.filter(item => item.categoryId === category.id).length;
     
     categoryContent.appendChild(categoryIcon);

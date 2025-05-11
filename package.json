@@ -1,20 +1,20 @@
 {
   "name": "kali-launcher",
   "version": "1.0.0",
-  "description": "Kali Linux工具启动器",
+  "description": "Kali Linux 工具启动器",
   "main": "main.js",
   "scripts": {
-    "start": "electron.",
-    "dev": "NODE_ENV=development electron.",
+    "start": "electron . --no-sandbox",
+    "dev": "NODE_ENV=development electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "lint": "eslint .",
+    "lint": "eslint.",
     "build:clean": "rimraf dist && rimraf node_modules/.cache && rimraf node_modules/.rpt2_cache",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
-    "7zip-bin": "^5.1.0",
-    "font-awesome": "^4.7.0",
+    "7zip-bin": "^5.1.1",
+    "font-awesome": "^5.15.4", 
     "tailwindcss": "^3.4.17",
     "axios": "^1.4.0",
     "js-yaml": "^4.1.0"
@@ -35,7 +35,7 @@
     "semver": "^6.3.1"
   },
   "build": {
-    "appId": "com.yourcompany.kali-launcher",
+    "appId": "com.demonrr.kali-launcher",
     "productName": "Kali Launcher",
     "directories": {
       "output": "dist"
@@ -43,35 +43,36 @@
     "files": [
       "**/*"
     ],
-    "win": {
-      "target": [
-        "nsis"
-      ],
-      "icon": "build/icons/win/icon.ico"
-    },
-    "mac": {
-      "target": [
-        "dmg"
-      ],
-      "icon": "build/icons/mac/icon.icns"
-    },
     "linux": {
       "target": [
         "deb",
         "AppImage"
       ],
-      "icon": "build/icons/linux/icon.png"
+      "icon": "build/icons/linux",
+      "category": "Utility;System",
+      "maintainer": "DemonRR",
+      "executableName": "kali-launcher",
+      "desktop": {
+        "Name": "Kali Launcher",
+        "Comment": "Kali Linux 工具快速启动器",
+        "Terminal": "false",
+        "Type": "Application",
+        "Categories": "Utility;System",
+        "Icon": "kali-launcher"
+      }
     },
     "asar": true,
     "publish": [
-      "github"
-    ],
-    "win": {
-      "requestedExecutionLevel": "highestAvailable"
-    },
-    "mac": {
-      "category": "public.app-category.utilities"
-    }
+      {
+        "provider": "github",
+        "owner": "DemonRR",
+        "repo": "kali-launcher"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DemonRR/kali-launcher.git"
   },
   "keywords": [
     "Kali",
@@ -79,6 +80,10 @@
     "工具",
     "启动器"
   ],
-  "author": "Your Name",
-  "license": "MIT"
+  "author": "DemonRR",
+  "license": "MIT",
+  "homepage": "https://github.com/DemonRR/kali-launcher#readme",
+  "bugs": {
+    "url": "https://github.com/DemonRR/kali-launcher/issues"
+  }
 }

@@ -1,8 +1,44 @@
-// electron-app/main.js
 const { app, BrowserWindow, Menu, shell, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { exec, execSync, spawn } = require('child_process');
+
+// 设置 Linux 输入法环境变量
+if (process.platform === 'linux') {
+  // 检测当前系统使用的输入法框架
+  try {
+    const fcitx5Running = execSync('pgrep fcitx5', { stdio: 'ignore' }).toString().trim().length > 0;
+    const fcitxRunning = execSync('pgrep fcitx', { stdio: 'ignore' }).toString().trim().length > 0;
+    const ibusRunning = execSync('pgrep ibus', { stdio: 'ignore' }).toString().trim().length > 0;
+    
+    if (fcitx5Running) {
+      process.env.GTK_IM_MODULE = 'fcitx';
+      process.env.QT_IM_MODULE = 'fcitx';
+      process.env.XMODIFIERS = '@im=fcitx';
+      process.env.IM_CONFIG_PHASE = '1';
+      console.log('已检测到 fcitx5，设置输入法环境变量');
+    } else if (fcitxRunning) {
+      process.env.GTK_IM_MODULE = 'fcitx';
+      process.env.QT_IM_MODULE = 'fcitx';
+      process.env.XMODIFIERS = '@im=fcitx';
+      console.log('已检测到 fcitx，设置输入法环境变量');
+    } else if (ibusRunning) {
+      process.env.GTK_IM_MODULE = 'ibus';
+      process.env.QT_IM_MODULE = 'ibus';
+      process.env.XMODIFIERS = '@im=ibus';
+      console.log('已检测到 ibus，设置输入法环境变量');
+    }
+  } catch (error) {
+    // 如果检测失败，使用默认设置
+    console.log('输入法检测失败，使用默认设置');
+    process.env.GTK_IM_MODULE = 'fcitx';
+    process.env.QT_IM_MODULE = 'fcitx';
+    process.env.XMODIFIERS = '@im=fcitx';
+  }
+  
+  // 设置应用数据目录
+  app.setPath('userData', path.join(app.getPath('home'), '.config/kali-launcher'));
+}
 
 // 配置文件路径
 const CONFIG_PATH = path.join(app.getPath('userData'), 'config.json');
@@ -50,7 +86,10 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true, // 启用上下文隔离
-      nodeIntegration: false  // 禁用Node.js集成
+      nodeIntegration: false, // 禁用Node.js集成
+      inputMethod: 'system', // 确保输入法配置
+      enableRemoteModule: false, // 禁用remote模块
+      sandbox: true // 启用沙盒
     }
   });
 
@@ -197,7 +236,7 @@ ipcMain.handle('execute-command-in-terminal', (event, command) => {
   console.log('收到在终端中执行命令请求:', command);
   return new Promise((resolve, reject) => {
     let cmd, args;
-    
+
     if (process.platform === 'win32') {
       // Windows系统
       cmd = 'cmd.exe';
@@ -217,9 +256,9 @@ ipcMain.handle('execute-command-in-terminal', (event, command) => {
         { bin: 'tilix', args: ['--', 'bash', '-c'] },
         { bin: 'mate-terminal', args: ['--', 'bash', '-c'] },
       ];
-      
+
       let terminalFound = false;
-      
+
       for (const terminal of terminals) {
         try {
           // 检查终端是否存在
@@ -232,22 +271,22 @@ ipcMain.handle('execute-command-in-terminal', (event, command) => {
           continue;
         }
       }
-      
+
       if (!terminalFound) {
         // 使用默认的终端
         cmd = 'x-terminal-emulator';
         args = ['-e', `bash -c '${escapeShell(command)}; bash'`];
       }
     }
-    
+
     console.log('执行终端命令:', cmd, args);
-    
+
     // 使用 spawn 代替 exec，分离进程，不等待输出
     const child = spawn(cmd, args, { detached: true, stdio: 'ignore' });
-    
+
     // 立即分离子进程，让它在后台运行
     child.unref();
-    
+
     // 命令已成功启动，无需等待终端关闭
     resolve('命令已在新终端中启动');
   });
