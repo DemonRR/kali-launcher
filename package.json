@@ -1,0 +1,84 @@
+{
+  "name": "kali-launcher",
+  "version": "1.0.0",
+  "description": "Kali Linux工具启动器",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron.",
+    "dev": "NODE_ENV=development electron.",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "lint": "eslint .",
+    "build:clean": "rimraf dist && rimraf node_modules/.cache && rimraf node_modules/.rpt2_cache",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "7zip-bin": "^5.1.0",
+    "font-awesome": "^4.7.0",
+    "tailwindcss": "^3.4.17",
+    "axios": "^1.4.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "electron": "^24.8.8",
+    "electron-builder": "^23.6.0",
+    "eslint": "^8.0.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-standard": "^16.0.2",
+    "rimraf": "^3.0.2",
+    "chalk": "^4.1.2",
+    "fs-extra": "^10.0.0",
+    "cross-spawn": "^7.0.6",
+    "semver": "^6.3.1"
+  },
+  "build": {
+    "appId": "com.yourcompany.kali-launcher",
+    "productName": "Kali Launcher",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icons/win/icon.ico"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "build/icons/mac/icon.icns"
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "icon": "build/icons/linux/icon.png"
+    },
+    "asar": true,
+    "publish": [
+      "github"
+    ],
+    "win": {
+      "requestedExecutionLevel": "highestAvailable"
+    },
+    "mac": {
+      "category": "public.app-category.utilities"
+    }
+  },
+  "keywords": [
+    "Kali",
+    "Linux",
+    "工具",
+    "启动器"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

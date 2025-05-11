@@ -1,0 +1,233 @@
+/* assets/css/styles.css */
+
+/* 之前的代码保持不变 */
+
+/* 暗主题样式 */
+body.dark {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+body.dark header {
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+body.dark aside {
+  background-color: #1e293b;
+  border-right: 1px solid #334155;
+}
+
+body.dark .bg-white {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background-color: #27374D;
+  color: #DDE6ED;
+  border: 1px solid #526D82;
+  /* 移除自定义下拉箭头，使用浏览器默认样式 */
+  background-image: none;
+  padding-right: 0.75rem;
+}
+
+body.dark input::placeholder,
+body.dark select::placeholder,
+body.dark textarea::placeholder {
+  color: #9DB2BF;
+}
+
+body.dark input:focus,
+body.dark select:focus,
+body.dark textarea:focus {
+  border-color: #9DB2BF;
+  box-shadow: 0 0 0 2px rgba(157, 178, 191, 0.2);
+}
+
+/* 移除自定义下拉箭头 */
+select {
+  background-image: none;
+  padding-right: 0.75rem;
+}
+
+body.dark select {
+  background-image: none;
+  padding-right: 0.75rem;
+}
+
+body.dark .btn-primary {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+body.dark .btn-primary:hover {
+  background-color: #2563eb;
+}
+
+body.dark .btn-secondary {
+  background-color: #64748b;
+  color: #ffffff;
+}
+
+body.dark .btn-secondary:hover {
+  background-color: #475569;
+}
+
+body.dark .modal-content {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+}
+
+body.dark .modal-header {
+  border-bottom: 1px solid #334155;
+}
+
+body.dark .modal-footer {
+  border-top: 1px solid #334155;
+}
+
+body.dark label {
+  color: #e2e8f0;
+}
+
+/* 项目卡片名称样式 */
+body.dark .font-medium.text-dark {
+  color: #ffffff; /* 确保项目卡片名称在暗主题下为白色 */
+}
+
+/* 提醒信息样式 */
+body.dark #notification-title {
+  color: #ffffff; /* 提醒信息标题在暗主题下为白色 */
+}
+
+body.dark #notification-message {
+  color: #e2e8f0; /* 提醒信息内容在暗主题下为亮灰色 */
+}
+
+/* 分类列表样式 */
+.category-list-item {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.category-list-item i {
+  margin-right: 0.5rem;
+}
+
+body.light .category-list-item:hover {
+  background-color: #f1f5f9;
+}
+
+body.dark .category-list-item:hover {
+  background-color: #2a3a50; /* 更柔和的深蓝色，提升对比度 */
+}
+
+/* 右键菜单样式 */
+.context-menu {
+  position: fixed;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 100;
+  min-width: 100px; /* 将最小宽度调小 */
+}
+
+body.light .context-menu {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+body.dark .context-menu {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+}
+
+.context-menu-item {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.context-menu-item i {
+  margin-right: 0.5rem;
+}
+
+body.light .context-menu-item:hover {
+  background-color: #f1f5f9;
+}
+
+body.dark .context-menu-item:hover {
+  background-color: #2a3a50; /* 更柔和的深蓝色，提升对比度 */
+}
+
+/* 搜索框样式 */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+}
+
+.search-container input {
+  width: 100%;
+  padding-left: 2.5rem; /* 为左侧图标留出空间 */
+}
+
+.search-container .search-icon {
+  position: absolute;
+  left: 0.75rem;
+  pointer-events: none; /* 确保图标不会干扰输入 */
+}
+
+body.light .search-container .search-icon {
+  color: #94a3b8;
+}
+
+body.dark .search-container .search-icon {
+  color: #9DB2BF;
+}
+
+/* 刷新按钮暗主题下的悬停样式 */
+body.dark #refresh-btn:hover {
+  background-color: #2a3a50; /* 更柔和的深蓝色 */
+}
+
+/* 过渡动画 */
+body, header, aside, .bg-white, input, select, textarea, .btn, .modal-content, .category-list-item, .context-menu-item {
+  transition: all 0.3s ease;
+}
+
+/* 暗主题下取消按钮的悬停样式 */
+body.dark #confirm-cancel-btn:hover,
+body.dark #item-modal-close:hover {
+  background-color: #2a3a50; /* 更柔和的深蓝色 */
+  color: #ffffff; /* 文字颜色为白色 */
+}
+
+/* 右键菜单标题截断样式 */
+.menu-title-truncate {
+  max-width: 150px; /* 可根据需要调整最大宽度 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 项目数量统计样式 */
+.item-count {
+  background-color: #F2F3F5; /* 亮主题下的背景色 */
+  color: #4E5969; /* 亮主题下的文字颜色 */
+}
+
+body.dark .item-count {
+  background-color: #27374D; /* 暗主题下的背景色 */
+  color: #DDE6ED; /* 暗主题下的文字颜色 */
+}
