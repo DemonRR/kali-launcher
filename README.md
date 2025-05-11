@@ -33,6 +33,7 @@ dpkg -i kali-launcher_1.0.1_amd64.deb
 ```
 kali-launcher
 # root用户下运行需要添加 --no-sandbox
+# 快捷方式kali-launcher.desktop root用户下需要手动编辑添加--no-sandbox
 ```
 
 
