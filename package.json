@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron . --no-sandbox",
-    "dev": "NODE_ENV=development electron .",
+    "dev": "NODE_ENV=development electron . --no-sandbox",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "lint": "eslint.",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "7zip-bin": "^5.1.1",
-    "font-awesome": "^5.15.4", 
+    "@fortawesome/fontawesome-free": "^5.15.4", 
     "tailwindcss": "^3.4.17",
     "axios": "^1.4.0",
     "js-yaml": "^4.1.0"
@@ -27,7 +27,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-standard": "^16.0.2",
+    "eslint-plugin-standard": "^5.0.0",
     "rimraf": "^3.0.2",
     "chalk": "^4.1.2",
     "fs-extra": "^10.0.0",
@@ -53,7 +53,7 @@
       "maintainer": "DemonRR",
       "executableName": "kali-launcher",
       "desktop": {
-        "Name": "Kali Launcher",
+        "Name": "Kali启动器",
         "Comment": "Kali Linux 工具快速启动器",
         "Terminal": "false",
         "Type": "Application",
