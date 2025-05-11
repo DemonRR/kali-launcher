@@ -209,13 +209,38 @@ function openItemModal(itemId = null) {
   }, 100);
   
   // 监听项目类型变化
-  document.getElementById('item-type').addEventListener('change', (e) => {
+  const itemTypeSelect = document.getElementById('item-type');
+  itemTypeSelect.addEventListener('change', (e) => {
+    const iconPreview = document.getElementById('item-icon-preview');
+    const itemIconInput = document.getElementById('item-icon');
+    switch (e.target.value) {
+      case 'url':
+        iconPreview.className = 'fa fa-globe';
+        itemIconInput.value = 'fa-globe';
+        break;
+      case 'file':
+        iconPreview.className = 'fa fa-file';
+        itemIconInput.value = 'fa-file';
+        break;
+      case 'folder':
+        iconPreview.className = 'fa fa-folder';
+        itemIconInput.value = 'fa-folder';
+        break;
+      case 'command':
+        iconPreview.className = 'fa fa-terminal';
+        itemIconInput.value = 'fa-terminal';
+        break;
+    }
+    
     if (e.target.value === 'command') {
       terminalOption.classList.remove('hidden');
     } else {
       terminalOption.classList.add('hidden');
     }
   });
+  
+  // 触发一次 change 事件，设置初始图标
+  itemTypeSelect.dispatchEvent(new Event('change'));
 }
 
 // 设置项目相关事件

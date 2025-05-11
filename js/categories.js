@@ -77,7 +77,8 @@ function renderCategories() {
     
     const editButton = document.createElement('button');
     editButton.className = 'p-1 text-dark-2 hover:text-primary transition-custom';
-    editButton.innerHTML = '<i class="fa fa-pencil"></i>';
+    // 更新为 Font Awesome v5 类名
+    editButton.innerHTML = '<i class="fas fa-pencil-alt"></i>'; 
     editButton.addEventListener('click', (e) => {
       e.stopPropagation();
       currentCategoryIdForEdit = category.id;
@@ -86,7 +87,8 @@ function renderCategories() {
     
     const deleteButton = document.createElement('button');
     deleteButton.className = 'p-1 text-dark-2 hover:text-danger transition-custom';
-    deleteButton.innerHTML = '<i class="fa fa-trash"></i>';
+    // 更新为 Font Awesome v5 类名
+    deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>'; 
     deleteButton.addEventListener('click', (e) => {
       e.stopPropagation();
       currentCategoryIdForEdit = category.id;
