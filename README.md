@@ -20,3 +20,5 @@ npm run pack
 npm run dist
 ```
 
+## 界面展示
+![PixPin_2025-05-11_22-42-30](https://github.com/user-attachments/assets/74c2cbea-26e5-4ac3-8718-a47a80de3ab2)
