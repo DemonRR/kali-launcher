@@ -1,31 +1,37 @@
-name: Build and Package
+name: Package for Kali Linux
 
 on:
   push:
     branches:
-      - main  # 当 main 分支有推送时触发工作流
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # 使用最新的 Ubuntu 环境
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # 检出代码到工作区
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3  # 设置 Node.js 环境
+        uses: actions/setup-node@v3
         with:
-          node-version: 18  # 使用 Node.js 18 版本
+          node-version: 18
 
       - name: Install dependencies
-        run: npm install  # 安装项目依赖
+        run: npm install
 
-      - name: Package the application
-        run: npm run package  # 执行打包命令，需要确保 package.json 中有相应的脚本
+      - name: Package for Kali Linux
+        run: npm run dist -- --linux deb,AppImage
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2  # 尝试使用 v2 版本
+      - name: Upload artifacts (retry on failure)
+        uses: nick-fields/retry@v2
         with:
-          name: packaged-app  # 工件名称
-          path: path/to/packaged/files  # 打包文件的路径，需要根据实际情况修改
+          max_attempts: 3
+          retry_on: error
+          timeout_minutes: 1
+          command: |
+            uses: actions/upload-artifact@v3
+            with:
+              name: kali-packages
+              path: dist/*.{deb,AppImage}
