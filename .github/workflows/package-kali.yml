@@ -1,4 +1,4 @@
-name: Package for Kali Linux
+name: Build and Package
 
 on:
   push:
@@ -21,11 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install  # 安装项目依赖
 
-      - name: Package for Kali Linux
-        run: npm run dist -- --linux deb,AppImage  # 执行打包命令，只生成 deb 和 AppImage 格式
+      - name: Package the application
+        run: npm run package  # 执行打包命令，需要确保 package.json 中有相应的脚本
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3  # 上传打包后的文件作为工件
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2  # 尝试使用 v2 版本
         with:
-          name: kali-packages
-          path: dist/*.{deb,AppImage}  # 上传 dist 目录下的 deb 和 AppImage 文件
+          name: packaged-app  # 工件名称
+          path: path/to/packaged/files  # 打包文件的路径，需要根据实际情况修改
