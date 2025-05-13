@@ -387,3 +387,38 @@ body.dark .btn-secondary:hover {
 body.dark .modal-content {
   /* 可以根据需要调整暗主题下模态框内容的样式 */
 }
+
+/* 美化滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.7);
+}
+
+/* 只在鼠标悬停在容器上时显示滚动条 */
+.scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  visibility: hidden;
+}
+
+.scroll-container:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+}

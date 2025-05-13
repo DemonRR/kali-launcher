@@ -1,7 +1,8 @@
 const { app, BrowserWindow, Menu, shell, ipcMain, dialog } = require('electron');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs').promises; // 使用异步版本的 fs
 const { exec, execSync, spawn } = require('child_process');
+
 
 // 设置 Linux 输入法环境变量
 if (process.platform === 'linux') {
@@ -10,7 +11,7 @@ if (process.platform === 'linux') {
     const fcitx5Running = execSync('pgrep fcitx5', { stdio: 'ignore' }).toString().trim().length > 0;
     const fcitxRunning = execSync('pgrep fcitx', { stdio: 'ignore' }).toString().trim().length > 0;
     const ibusRunning = execSync('pgrep ibus', { stdio: 'ignore' }).toString().trim().length > 0;
-    
+
     if (fcitx5Running) {
       process.env.GTK_IM_MODULE = 'fcitx';
       process.env.QT_IM_MODULE = 'fcitx';
@@ -35,7 +36,7 @@ if (process.platform === 'linux') {
     process.env.QT_IM_MODULE = 'fcitx';
     process.env.XMODIFIERS = '@im=fcitx';
   }
-  
+
   // 设置应用数据目录
   app.setPath('userData', path.join(app.getPath('home'), '.config/kali-launcher'));
 }
@@ -50,28 +51,23 @@ let config = {
   theme: 'light' // 添加 theme 字段
 };
 
-// 读取配置文件
-function loadConfig() {
+// 异步读取配置文件
+async function loadConfig() {
   try {
-    if (fs.existsSync(CONFIG_PATH)) {
-      const data = fs.readFileSync(CONFIG_PATH, 'utf8');
-      config = JSON.parse(data);
-      console.log('配置文件加载成功');
-    } else {
-      console.log('配置文件不存在，将使用默认配置');
-      saveConfig(); // 创建默认配置文件
-    }
+    const data = await fs.readFile(CONFIG_PATH, 'utf8');
+    config = JSON.parse(data);
+    console.log('配置文件加载成功');
   } catch (error) {
     console.error('加载配置文件失败:', error);
     config = { categories: [], items: [], theme: 'light' };
-    saveConfig(); // 创建新的配置文件
+    await saveConfig(); // 创建新的配置文件
   }
 }
 
-// 保存配置文件
-function saveConfig() {
+// 异步保存配置文件
+async function saveConfig() {
   try {
-    fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
+    await fs.writeFile(CONFIG_PATH, JSON.stringify(config, null, 2));
     console.log('配置文件保存成功');
   } catch (error) {
     console.error('保存配置文件失败:', error);
@@ -104,8 +100,8 @@ function createWindow() {
 }
 
 // 应用准备就绪时创建窗口
-app.whenReady().then(() => {
-  loadConfig();
+app.whenReady().then(async () => {
+  await loadConfig();
   createWindow();
 
   app.on('activate', function () {
@@ -130,27 +126,27 @@ ipcMain.handle('get-config', () => {
 });
 
 // 保存配置
-ipcMain.handle('save-config', (event, newConfig) => {
+ipcMain.handle('save-config', async (event, newConfig) => {
   console.log('收到保存配置请求');
   config = newConfig;
-  saveConfig();
+  await saveConfig();
   return true;
 });
 
 // 添加分类
-ipcMain.handle('add-category', (event, name) => {
+ipcMain.handle('add-category', async (event, name) => {
   console.log('收到添加分类请求:', name);
   const newCategory = {
     id: Date.now().toString(),
     name
   };
   config.categories.push(newCategory);
-  saveConfig();
+  await saveConfig();
   return newCategory;
 });
 
 // 编辑分类
-ipcMain.handle('edit-category', (event, id, name) => {
+ipcMain.handle('edit-category', async (event, id, name) => {
   console.log('收到编辑分类请求:', id, name);
   const category = config.categories.find(c => c.id === id);
   if (category) {
@@ -161,52 +157,52 @@ ipcMain.handle('edit-category', (event, id, name) => {
         item.categoryName = name;
       }
     });
-    saveConfig();
+    await saveConfig();
     return true;
   }
   return false;
 });
 
 // 删除分类
-ipcMain.handle('delete-category', (event, id) => {
+ipcMain.handle('delete-category', async (event, id) => {
   console.log('收到删除分类请求:', id);
   // 先删除关联的项目
   config.items = config.items.filter(item => item.categoryId !== id);
   // 再删除分类
   config.categories = config.categories.filter(c => c.id !== id);
-  saveConfig();
+  await saveConfig();
   return true;
 });
 
 // 添加项目
-ipcMain.handle('add-item', (event, item) => {
+ipcMain.handle('add-item', async (event, item) => {
   console.log('收到添加项目请求:', item);
   const newItem = {
     id: Date.now().toString(),
     ...item
   };
   config.items.push(newItem);
-  saveConfig();
+  await saveConfig();
   return newItem;
 });
 
 // 编辑项目
-ipcMain.handle('edit-item', (event, id, updatedItem) => {
+ipcMain.handle('edit-item', async (event, id, updatedItem) => {
   console.log('收到编辑项目请求:', id, updatedItem);
   const index = config.items.findIndex(item => item.id === id);
   if (index !== -1) {
     config.items[index] = { ...config.items[index], ...updatedItem };
-    saveConfig();
+    await saveConfig();
     return true;
   }
   return false;
 });
 
 // 删除项目
-ipcMain.handle('delete-item', (event, id) => {
+ipcMain.handle('delete-item', async (event, id) => {
   console.log('收到删除项目请求:', id);
   config.items = config.items.filter(item => item.id !== id);
-  saveConfig();
+  await saveConfig();
   return true;
 });
 
@@ -326,7 +322,7 @@ ipcMain.handle('export-config', async () => {
 
   if (!canceled) {
     try {
-      fs.writeFileSync(filePath, JSON.stringify(config, null, 2));
+      await fs.writeFile(filePath, JSON.stringify(config, null, 2));
       return true;
     } catch (error) {
       console.error('导出配置失败:', error);
@@ -347,10 +343,10 @@ ipcMain.handle('import-config', async () => {
 
   if (!canceled) {
     try {
-      const data = fs.readFileSync(filePaths[0], 'utf8');
+      const data = await fs.readFile(filePaths[0], 'utf8');
       const newConfig = JSON.parse(data);
       config = newConfig;
-      saveConfig();
+      await saveConfig();
       return true;
     } catch (error) {
       console.error('导入配置失败:', error);

@@ -303,96 +303,106 @@ function setupItemEvents() {
   
   // 项目表单提交
   document.getElementById('item-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const itemId = document.getElementById('item-id').value;
-  const itemName = document.getElementById('item-name').value.trim();
-  const itemType = document.getElementById('item-type').value;
-  const itemCommand = document.getElementById('item-command').value.trim();
-  const itemCategory = document.getElementById('item-category').value;
-  const itemIcon = document.getElementById('item-icon').value.trim();
-  
-  // 获取"在终端中打开"的状态
-  const runInTerminal = itemType === 'command' 
-    ? document.getElementById('run-in-terminal').checked 
-    : false;
-  
-  // 验证
-  let isValid = true;
-  
-  if (!itemName) {
-    document.getElementById('item-name-error').classList.remove('hidden');
-    isValid = false;
-  } else {
-    document.getElementById('item-name-error').classList.add('hidden');
-  }
-  
-  if (!itemCommand) {
-    document.getElementById('item-command-error').classList.remove('hidden');
-    isValid = false;
-  } else {
-    document.getElementById('item-command-error').classList.add('hidden');
-  }
-  
-  if (!isValid) return;
-  
-  try {
-    if (itemId) {
-      // 更新现有项目
-      const index = AppConfig.items.findIndex(i => i.id === itemId);
-      if (index !== -1) {
-        AppConfig.items[index].name = itemName;
-        AppConfig.items[index].type = itemType;
-        AppConfig.items[index].command = itemCommand;
-        AppConfig.items[index].categoryId = itemCategory || null;
-        AppConfig.items[index].categoryName = getCategoryName(itemCategory);
-        AppConfig.items[index].icon = itemIcon;
-        
-        // 只对命令类型保存runInTerminal属性
-        if (itemType === 'command') {
-          AppConfig.items[index].runInTerminal = runInTerminal;
-        } else {
-          // 如果不是命令类型，移除该属性
-          delete AppConfig.items[index].runInTerminal;
-        }
-        
-        showNotification('成功', '项目已更新', 'success');
-      }
+    e.preventDefault();
+    
+    const itemId = document.getElementById('item-id').value;
+    const itemName = document.getElementById('item-name').value.trim();
+    const itemType = document.getElementById('item-type').value;
+    const itemCommand = document.getElementById('item-command').value.trim();
+    const itemCategory = document.getElementById('item-category').value;
+    const itemIcon = document.getElementById('item-icon').value.trim();
+    
+    // 获取"在终端中打开"的状态
+    const runInTerminal = itemType === 'command' 
+      ? document.getElementById('run-in-terminal').checked 
+      : false;
+    
+    // 验证
+    let isValid = true;
+    
+    if (!itemName) {
+      document.getElementById('item-name-error').classList.remove('hidden');
+      isValid = false;
     } else {
-      // 创建新项目
-      const newItem = {
-        id: Date.now().toString(),
-        name: itemName,
-        type: itemType,
-        command: itemCommand,
-        categoryId: itemCategory || null,
-        categoryName: getCategoryName(itemCategory),
-        icon: itemIcon || 'fa-terminal'
-      };
-      
-      // 只对命令类型添加runInTerminal属性
-      if (itemType === 'command') {
-        newItem.runInTerminal = runInTerminal;
-      }
-      
-      AppConfig.items.push(newItem);
-      showNotification('成功', '项目已添加', 'success');
+      document.getElementById('item-name-error').classList.add('hidden');
     }
     
-    // 保存配置
-    await saveConfig();
+    if (!itemCommand) {
+      document.getElementById('item-command-error').classList.remove('hidden');
+      isValid = false;
+    } else {
+      document.getElementById('item-command-error').classList.add('hidden');
+    }
+
+    // 检查重名
+    if (!itemId) { // 新建项目时检查
+      const isDuplicate = AppConfig.items.some(item => item.name === itemName);
+      if (isDuplicate) {
+        document.getElementById('item-name-error').textContent = '项目名称已存在，请选择其他名称';
+        document.getElementById('item-name-error').classList.remove('hidden');
+        isValid = false;
+      }
+    }
     
-    // 重新渲染分类和项目列表，更新统计数字
-    renderCategories();
-    renderItems(currentSearchTerm);
+    if (!isValid) return;
     
-    // 关闭模态框
-    document.getElementById('item-modal').classList.add('hidden');
-  } catch (error) {
-    console.error('保存项目失败:', error);
-    showNotification('错误', '保存项目失败: ' + error.message, 'error');
-  }
-});
+    try {
+      if (itemId) {
+        // 更新现有项目
+        const index = AppConfig.items.findIndex(i => i.id === itemId);
+        if (index !== -1) {
+          AppConfig.items[index].name = itemName;
+          AppConfig.items[index].type = itemType;
+          AppConfig.items[index].command = itemCommand;
+          AppConfig.items[index].categoryId = itemCategory || null;
+          AppConfig.items[index].categoryName = getCategoryName(itemCategory);
+          AppConfig.items[index].icon = itemIcon;
+          
+          // 只对命令类型保存runInTerminal属性
+          if (itemType === 'command') {
+            AppConfig.items[index].runInTerminal = runInTerminal;
+          } else {
+            // 如果不是命令类型，移除该属性
+            delete AppConfig.items[index].runInTerminal;
+          }
+          
+          showNotification('成功', '项目已更新', 'success');
+        }
+      } else {
+        // 创建新项目
+        const newItem = {
+          id: Date.now().toString(),
+          name: itemName,
+          type: itemType,
+          command: itemCommand,
+          categoryId: itemCategory || null,
+          categoryName: getCategoryName(itemCategory),
+          icon: itemIcon || 'fa-terminal'
+        };
+        
+        // 只对命令类型添加runInTerminal属性
+        if (itemType === 'command') {
+          newItem.runInTerminal = runInTerminal;
+        }
+        
+        AppConfig.items.push(newItem);
+        showNotification('成功', '项目已添加', 'success');
+      }
+      
+      // 保存配置
+      await saveConfig();
+      
+      // 重新渲染分类和项目列表，更新统计数字
+      renderCategories();
+      renderItems(currentSearchTerm);
+      
+      // 关闭模态框
+      document.getElementById('item-modal').classList.add('hidden');
+    } catch (error) {
+      console.error('保存项目失败:', error);
+      showNotification('错误', '保存项目失败: ' + error.message, 'error');
+    }
+  });
   
   // 图标实时预览
   document.getElementById('item-icon').addEventListener('input', (e) => {

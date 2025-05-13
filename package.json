@@ -1,89 +1,90 @@
 {
-  "name": "kali-launcher",
-  "version": "1.0.1",
-  "description": "Kali Linux 工具启动器",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron . --no-sandbox",
-    "dev": "NODE_ENV=development electron . --no-sandbox",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "lint": "eslint.",
-    "build:clean": "rimraf dist && rimraf node_modules/.cache && rimraf node_modules/.rpt2_cache",
-    "postinstall": "electron-builder install-app-deps"
-  },
-  "dependencies": {
-    "7zip-bin": "^5.1.1",
-    "@fortawesome/fontawesome-free": "^5.15.4", 
-    "tailwindcss": "^3.4.17",
-    "axios": "^1.4.0",
-    "js-yaml": "^4.1.0"
-  },
-  "devDependencies": {
-    "electron": "^24.8.8",
-    "electron-builder": "^23.6.0",
-    "eslint": "^8.0.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-standard": "^5.0.0",
-    "rimraf": "^3.0.2",
-    "chalk": "^4.1.2",
-    "fs-extra": "^10.0.0",
-    "cross-spawn": "^7.0.6",
-    "semver": "^6.3.1"
-  },
-  "build": {
-    "appId": "com.demonrr.kali-launcher",
-    "productName": "Kali Launcher",
-    "directories": {
-      "output": "dist"
+    "name": "kali-launcher",
+    "version": "1.0.2",
+    "description": "Kali应用快捷启动器",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron . --no-sandbox",
+        "dev": "NODE_ENV=development electron .",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder",
+        "lint": "eslint.",
+        "build:clean": "rimraf dist && rimraf node_modules/.cache && rimraf node_modules/.rpt2_cache",
+        "postinstall": "electron-builder install-app-deps"
     },
-    "files": [
-      "**/*"
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.4",
+        "7zip-bin": "^5.1.1",
+        "axios": "^1.4.0",
+        "js-yaml": "^4.1.0",
+        "tailwindcss": "^3.4.17"
+    },
+    "devDependencies": {
+        "chalk": "^4.1.2",
+        "cross-spawn": "^7.0.6",
+        "electron": "^24.8.8",
+        "electron-builder": "^26.0.12",
+        "eslint": "^8.0.0",
+        "eslint-config-standard": "^17.0.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^6.0.0",
+        "eslint-plugin-standard": "^5.0.0",
+        "fs-extra": "^10.0.0",
+        "rimraf": "^3.0.2",
+        "semver": "^6.3.1"
+    },
+    "build": {
+        "appId": "com.demonrr.kali-launcher",
+        "productName": "Kali Launcher",
+        "directories": {
+            "output": "dist"
+        },
+        "files": [
+            "**/*"
+        ],
+        "linux": {
+            "target": [
+                "deb"
+            ],
+            "icon": "build/icons/linux",
+            "category": "Utility;System",
+            "maintainer": "DemonRR",
+            "executableName": "kali-launcher",
+            "desktop": {
+                "entry": {
+                    "Name": "Kali启动器",
+                    "Comment": "Kali应用快速启动器",
+                    "Terminal": "false",
+                    "Type": "Application",
+                    "Categories": "Utility;System",
+                    "Icon": "kali-launcher"
+                }
+            }
+        },
+        "asar": true,
+        "publish": [
+            {
+                "provider": "github",
+                "owner": "DemonRR",
+                "repo": "kali-launcher"
+            }
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DemonRR/kali-launcher.git"
+    },
+    "keywords": [
+        "Kali",
+        "Linux",
+        "工具",
+        "启动器"
     ],
-    "linux": {
-      "target": [
-        "deb",
-        "AppImage"
-      ],
-      "icon": "build/icons/linux",
-      "category": "Utility;System",
-      "maintainer": "DemonRR",
-      "executableName": "kali-launcher",
-      "desktop": {
-        "Name": "Kali启动器",
-        "Comment": "Kali Linux 工具快速启动器",
-        "Terminal": "false",
-        "Type": "Application",
-        "Categories": "Utility;System",
-        "Icon": "kali-launcher"
-      }
-    },
-    "asar": true,
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "DemonRR",
-        "repo": "kali-launcher"
-      }
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/DemonRR/kali-launcher.git"
-  },
-  "keywords": [
-    "Kali",
-    "Linux",
-    "工具",
-    "启动器"
-  ],
-  "author": "DemonRR",
-  "license": "MIT",
-  "homepage": "https://github.com/DemonRR/kali-launcher#readme",
-  "bugs": {
-    "url": "https://github.com/DemonRR/kali-launcher/issues"
-  }
+    "author": "DemonRR",
+    "license": "MIT",
+    "homepage": "https://github.com/DemonRR/kali-launcher#readme",
+    "bugs": {
+        "url": "https://github.com/DemonRR/kali-launcher/issues"
+    }
 }

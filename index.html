@@ -58,16 +58,19 @@
   <!-- 主内容区 -->
   <main class="flex-grow container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
     <!-- 左侧边栏 - 分类列表 -->
-    <aside class="md:w-64 flex-shrink-0 bg-white rounded-xl shadow-custom p-4 h-fit sticky top-24 light">
+    <aside class="md:w-72 flex-shrink-0 bg-white rounded-xl shadow-custom p-4 h-fit sticky top-24 light">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold">分类管理</h2>
         <button id="add-category-btn" class="text-primary hover:text-primary/80 transition-custom">
-          <i class="fas fa-plus"></i>
+          <i class="fa fa-plus"></i>
         </button>
       </div>
       
-      <div id="categories-list" class="space-y-1 max-h-[calc(100vh-180px)] overflow-y-auto pr-1">
-        <!-- 分类列表将在这里动态生成 -->
+      <!-- 分类列表区域单独设置滚动 -->
+      <div class="scroll-container overflow-y-auto max-h-[calc(100vh-240px)] pr-1">
+        <div id="categories-list" class="space-y-1">
+          <!-- 分类列表将在这里动态生成 -->
+        </div>
       </div>
     </aside>
 
@@ -140,6 +143,7 @@
           <label for="category-name" class="block text-sm font-medium text-dark-2 mb-1">分类名称</label>
           <input type="text" id="category-name" class="w-full px-3 py-2 border border-light-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="输入分类名称">
           <p id="category-name-error" class="text-danger text-xs mt-1 hidden">请输入分类名称</p>
+          <p id="category-name-duplicate-error" class="text-danger text-xs mt-1 hidden">分类名称已存在</p>
         </div>
         
         <div class="mb-4">

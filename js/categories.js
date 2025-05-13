@@ -2,6 +2,15 @@
 // 当前操作的分类ID（用于编辑和删除）
 let currentCategoryIdForEdit = null;
 
+// 检查分类名称是否已存在（不区分大小写）
+function isCategoryNameExists(name, excludeId = null) {
+  const normalizedName = name.trim().toLowerCase();
+  return AppConfig.categories.some(category => 
+    category.name.trim().toLowerCase() === normalizedName && 
+    category.id !== excludeId
+  );
+}
+
 // 渲染分类列表
 function renderCategories() {
   const categoriesList = document.getElementById('categories-list');
@@ -117,6 +126,7 @@ function openCategoryModal(categoryId = null) {
   form.reset();
   document.getElementById('category-id').value = '';
   document.getElementById('category-name-error').classList.add('hidden');
+  document.getElementById('category-name-duplicate-error').classList.add('hidden'); // 新增：重置重复错误提示
   
   if (categoryId) {
     title.textContent = '编辑分类';
@@ -161,11 +171,19 @@ function setupCategoryEvents() {
     // 验证
     let isValid = true;
     
+    // 重置错误提示
+    document.getElementById('category-name-error').classList.add('hidden');
+    document.getElementById('category-name-duplicate-error').classList.add('hidden');
+    
     if (!categoryName) {
       document.getElementById('category-name-error').classList.remove('hidden');
       isValid = false;
-    } else {
-      document.getElementById('category-name-error').classList.add('hidden');
+    }
+    
+    // 新增：检查名称是否已存在
+    if (categoryName && isCategoryNameExists(categoryName, categoryId)) {
+      document.getElementById('category-name-duplicate-error').classList.remove('hidden');
+      isValid = false;
     }
     
     if (!isValid) return;
