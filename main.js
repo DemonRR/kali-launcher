@@ -231,48 +231,38 @@ ipcMain.handle('execute-command', (event, command) => {
 ipcMain.handle('execute-command-in-terminal', (event, command) => {
   console.log('收到在终端中执行命令请求:', command);
   return new Promise((resolve, reject) => {
-    let cmd, args;
+    // 仅保留Linux系统的实现
+    const terminals = [
+      { bin: 'gnome-terminal', args: ['--', 'bash', '-c'] },
+      { bin: 'konsole', args: ['-e', 'bash', '-c'] },
+      { bin: 'xfce4-terminal', args: ['-x', 'bash', '-c'] },
+      { bin: 'terminator', args: ['-x', 'bash', '-c'] },
+      { bin: 'tilix', args: ['--', 'bash', '-c'] },
+      { bin: 'mate-terminal', args: ['--', 'bash', '-c'] },
+    ];
 
-    if (process.platform === 'win32') {
-      // Windows系统
-      cmd = 'cmd.exe';
-      args = ['/k', command];
-    } else if (process.platform === 'darwin') {
-      // macOS系统
-      const script = `tell app "Terminal" to do script "${escapeShell(command)}; bash"`;
-      cmd = 'osascript';
-      args = ['-e', script];
-    } else {
-      // Linux系统
-      const terminals = [
-        { bin: 'gnome-terminal', args: ['--', 'bash', '-c'] },
-        { bin: 'konsole', args: ['-e', 'bash', '-c'] },
-        { bin: 'xfce4-terminal', args: ['-x', 'bash', '-c'] },
-        { bin: 'terminator', args: ['-x', 'bash', '-c'] },
-        { bin: 'tilix', args: ['--', 'bash', '-c'] },
-        { bin: 'mate-terminal', args: ['--', 'bash', '-c'] },
-      ];
+    let terminalFound = false;
+    const escapedCommand = escapeShell(command);
 
-      let terminalFound = false;
-
-      for (const terminal of terminals) {
-        try {
-          // 检查终端是否存在
-          execSync(`which ${terminal.bin}`, { stdio: 'ignore' });
-          cmd = terminal.bin;
-          args = [...terminal.args, `${escapeShell(command)}; bash`];
-          terminalFound = true;
-          break;
-        } catch (e) {
-          continue;
-        }
+    for (const terminal of terminals) {
+      try {
+        // 检查终端是否存在
+        execSync(`which ${terminal.bin}`, { stdio: 'ignore' });
+        cmd = terminal.bin;
+        // 执行命令后保持终端打开并进入新的bash会话
+        args = [...terminal.args, `${escapedCommand}; bash`];
+        terminalFound = true;
+        break;
+      } catch (e) {
+        continue;
       }
+    }
 
-      if (!terminalFound) {
-        // 使用默认的终端
-        cmd = 'x-terminal-emulator';
-        args = ['-e', `bash -c '${escapeShell(command)}; bash'`];
-      }
+    if (!terminalFound) {
+      // 使用默认的终端
+      cmd = 'x-terminal-emulator';
+      // 执行命令后保持终端打开并进入新的bash会话
+      args = ['-e', `bash -c '${escapedCommand}; bash'`];
     }
 
     console.log('执行终端命令:', cmd, args);
@@ -288,9 +278,10 @@ ipcMain.handle('execute-command-in-terminal', (event, command) => {
   });
 });
 
-// 转义shell命令
+// 改进的shell命令转义函数
 function escapeShell(cmd) {
-  return cmd.replace(/(["'$`\\])/g, '\\$1');
+  // 只转义需要在单引号内转义的字符
+  return cmd.replace(/(['`\\])/g, '\\$1');
 }
 
 // 打开URL

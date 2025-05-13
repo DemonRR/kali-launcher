@@ -1,6 +1,6 @@
 {
     "name": "kali-launcher",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Kali应用快捷启动器",
     "main": "main.js",
     "scripts": {

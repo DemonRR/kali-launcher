@@ -422,3 +422,8 @@ body.dark .modal-content {
 .scroll-container:hover::-webkit-scrollbar-thumb {
   visibility: visible;
 }
+
+/* 新增：暗主题下空状态图标背景颜色 */
+body.dark .bg-light-1 {
+  background-color: #27374D;
+}
